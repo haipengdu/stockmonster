@@ -8,8 +8,10 @@ import AppNavigator from './navigation/AppNavigator';
 import { dynamicReducers } from './redux/reducers/dynamicReducers'
 import { configureMiddlewares } from './redux/middlewares/configureMiddlewares'
 
-
-const store = createStore(dynamicReducers, applyMiddleware(...configureMiddlewares));
+const helpers = {
+  loggingSeprator: "="
+};
+const store = createStore(dynamicReducers, applyMiddleware(...configureMiddlewares(helpers)));
 
 export default class App extends React.Component {
   state = {
@@ -27,12 +29,12 @@ export default class App extends React.Component {
       );
     } else {
       return (
-  
+        <Provider store={store}>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <AppNavigator />
           </View>
-  
+        </Provider>
       );
     }
   }
