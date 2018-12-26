@@ -8,18 +8,16 @@ import { ExpoLinksView } from '@expo/samples';
 import {LinksScreenDispatcher, LinksScreenReducer} from '../redux/reducers/linksScreenReducer'
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(">>>>>>>>>", state);
   return {
     ...ownProps,
     count: LinksScreenReducer.state(state).count
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-      clickCounter: () => dispatch(LinksScreenDispatcher.clickCounter()),
-      resetCounter: () => dispatch(LinksScreenDispatcher.resetCounter())
-    }
+const mapDispatchToProps = {
+    clickCounter: LinksScreenDispatcher.clickCounter,
+    scheduleCounter: LinksScreenDispatcher.scheduleCounter,
+    resetCounter: LinksScreenDispatcher.resetCounter
 };
 
 export class LinksScreen extends React.Component {
@@ -46,6 +44,7 @@ export class LinksScreen extends React.Component {
   }
 
   render() {
+    console.log("the props ", this.props);
     return (
       <ScrollView style={styles.container}>
         {/* Go ahead and delete ExpoLinksView and replace it with your
@@ -62,6 +61,11 @@ export class LinksScreen extends React.Component {
           onPress={this.props.resetCounter}
           title="Reset Count"
           color="#f00"
+        />
+        <Button
+          onPress={ () => {this.props.scheduleCounter(3000);} }
+          title="Schedule Count"
+          color="#ff0"
         />
         </View>
       </ScrollView>
