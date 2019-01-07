@@ -2,10 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Button, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 
-import {LinksScreenDispatcher, LinksScreenReducer} from '../redux/reducers/linksScreenReducer'
+import HomeScreen from './HomeScreen';
+import {LinksScreenDispatcher, LinksScreenReducer} from '../redux/reducers/linksScreenReducer';
+import TabBarIcon from '../components/TabBarIcon';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -22,7 +24,7 @@ const mapDispatchToProps = {
 
 export class LinksScreen extends React.Component {
   static navigationOptions = {
-    title: 'Links',
+    title: "Links"
   };
 
   static defaultProps  = {
@@ -44,12 +46,11 @@ export class LinksScreen extends React.Component {
   }
 
   render() {
-    console.log("the props ", this.props);
     return (
       <ScrollView style={styles.container}>
         {/* Go ahead and delete ExpoLinksView and replace it with your
            * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
+        
         <Text> Count: {this.props.count} </Text>
         <View>
         <Button
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#ff0',
   },
 });
 

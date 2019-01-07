@@ -4,12 +4,17 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
+import StockAPIClient from './apis/iex';
+import LocalStorageClient from './apis/localstorage';
 import AppNavigator from './navigation/AppNavigator';
+import HomeScreen from './screens/HomeScreen';
 import { dynamicReducers } from './redux/reducers/dynamicReducers'
 import { configureMiddlewares } from './redux/middlewares/configureMiddlewares'
 
 const helpers = {
-  loggingSeprator: "="
+  loggingSeprator: "*",
+  stockApiClient: StockAPIClient,
+  localStorageClient: LocalStorageClient
 };
 const store = createStore(dynamicReducers, applyMiddleware(...configureMiddlewares(helpers)));
 
@@ -53,6 +58,7 @@ export default class App extends React.Component {
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       }),
+      this._getStockLoading()
     ]);
   };
 
@@ -65,6 +71,13 @@ export default class App extends React.Component {
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
   };
+
+  _getStockLoading = () => {
+    return StockAPIClient.getAllStockSymbols()
+    .then( (data) => {
+      return LocalStorageClient.setAllStocks(data)
+    });
+  }
 }
 
 const styles = StyleSheet.create({
